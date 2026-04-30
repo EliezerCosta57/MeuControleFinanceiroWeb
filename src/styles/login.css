@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.tela-login {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #0f766e, #134e4a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+}
+
+.tela-login h1 {
+  color: white;
+  font-size: 42px;
+  margin-bottom: 5px;
+}
+
+.tela-login p {
+  color: white;
+  font-size: 18px;
+  margin-bottom: 30px;
+  letter-spacing: 4px;
+}
+
+.caixa-login {
+  width: 350px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.caixa-login h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #134e4a;
+}
+
+.caixa-login label {
+  font-weight: bold;
+  color: #333;
+}
+
+.caixa-login input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 18px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.caixa-login button {
+  width: 100%;
+  padding: 12px;
+  background: #0f766e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.caixa-login button:hover {
+  background: #115e59;
+}
+
+.caixa-login a {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  color: #0f766e;
+  text-decoration: none;
+}
