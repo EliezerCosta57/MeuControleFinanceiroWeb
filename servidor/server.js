@@ -1,4 +1,6 @@
 // servidor/server.js
+
+// funcao apenas de executar o express, nada muito complexo
 const express = require('express');
 const cors = require('cors');
 
