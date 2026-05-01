@@ -5,7 +5,7 @@ Para que serve: Quando o Front-end pedir para salvar uma despesa, o Controller �
 se a descrição foi preenchida, e depois mandar o Model salvar no banco. Ele também será responsável por calcular o saldo
 total (somando receitas e subtraindo despesas) antes de enviar para a tela de Dashboard.
 */
-const Transacao = require('../models/Transacao');
+const Transacao = require('../models/transacao');
 
 const transacaoController = {
     // Função para listar e calcular o saldo total

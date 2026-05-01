@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "API do Controle Financeiro",
   "main": "server.js",
-  "type": "module",
+  
   "scripts": {
     "start": "node server.js"
   },
