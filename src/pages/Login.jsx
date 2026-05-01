@@ -1,6 +1,9 @@
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/login.css";
 
 function Login() {
+  const navigate = useNavigate();
+
   function entrar(event) {
     event.preventDefault();
 
@@ -12,7 +15,8 @@ function Login() {
       return;
     }
 
-    alert("Login enviado com sucesso!");
+    // Simulando login
+    navigate("/dashboard");
   }
 
   return (
@@ -25,23 +29,15 @@ function Login() {
 
         <form onSubmit={entrar}>
           <label>E-mail:</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="seu@email.com"
-          />
+          <input type="email" name="email" />
 
           <label>Senha:</label>
-          <input
-            type="password"
-            name="senha"
-            placeholder="Digite sua senha"
-          />
+          <input type="password" name="senha" />
 
           <button type="submit">Entrar</button>
         </form>
 
-        <a href="#">Criar conta</a>
+        <Link to="/cadastro">Criar conta</Link>
       </div>
     </div>
   );
