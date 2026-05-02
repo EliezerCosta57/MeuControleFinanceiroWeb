@@ -1,39 +1,25 @@
-const API_URL = 'http://localhost:3000/api';
+import axios from "axios";
 
+const api = axios.create({
+  baseURL: "http://localhost:3000/api"
+});
+
+// LISTAR
 export async function listarTransacoes() {
-  const resposta = await fetch(`${API_URL}/transacoes`);
-
-  if (!resposta.ok) {
-    throw new Error('Erro ao buscar transações');
-  }
-
-  return resposta.json();
+  const resposta = await api.get("/transacoes");
+  return resposta.data;
 }
 
+// CRIAR
 export async function criarTransacao(transacao) {
-  const resposta = await fetch(`${API_URL}/transacoes`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(transacao)
-  });
-
-  if (!resposta.ok) {
-    throw new Error('Erro ao criar transação');
-  }
-
-  return resposta.json();
+  const resposta = await api.post("/transacoes", transacao);
+  return resposta.data;
 }
 
+// DELETAR
 export async function deletarTransacao(id) {
-  const resposta = await fetch(`${API_URL}/transacoes/${id}`, {
-    method: 'DELETE'
-  });
-
-  if (!resposta.ok) {
-    throw new Error('Erro ao deletar transação');
-  }
-
-  return resposta.json();
+  const resposta = await api.delete(`/transacoes/${id}`);
+  return resposta.data;
 }
+
+export default api;
