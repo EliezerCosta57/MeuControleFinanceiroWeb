@@ -1,4 +1,6 @@
 // servidor/server.js
+const connect = require('./config/database');
+connect();
 
 // funcao apenas de executar o express, nada muito complexo
 const express = require('express');
