@@ -8,50 +8,61 @@ total (somando receitas e subtraindo despesas) antes de enviar para a tela de Da
 const Transacao = require('../models/transacao');
 
 const transacaoController = {
-    // Função para listar e calcular o saldo total
-    listar: (req, res) => {
-        const transacoes = Transacao.listarTodas();
-        
-        // Calcula o saldo: soma as receitas e subtrai as despesas
-        const saldo = transacoes.reduce((acumulador, transacao) => {
-            return transacao.tipo === 'receita' 
-                ? acumulador + transacao.valor 
-                : acumulador - transacao.valor;
-        }, 0);
 
-        res.json({ saldo, transacoes });
+    listar: (req, res) => {
+        Transacao.listarTodas((erro, resultados) => {
+            if (erro) {
+                return res.status(500).json({ erro: 'Erro ao buscar dados' });
+            }
+
+            const saldo = resultados.reduce((acumulador, transacao) => {
+                return transacao.tipo === 'receita' 
+                    ? acumulador + transacao.valor 
+                    : acumulador - transacao.valor;
+            }, 0);
+
+            res.json({ saldo, transacoes: resultados });
+        });
     },
 
-    // Função para cadastrar nova despesa ou receita
     criar: (req, res) => {
         const { descricao, valor, tipo, data } = req.body;
-        
-        // Validação: não deixa salvar se faltar informação
-        if (!descricao || !valor || !tipo) {
-            return res.status(400).json({ erro: 'Descrição, valor e tipo são obrigatórios.' });
+
+        if (!descricao || valor == null || !tipo) {
+            return res.status(400).json({ erro: 'Dados obrigatórios' });
         }
 
-        const novaTransacao = Transacao.criar({ 
-            descricao, 
-            valor: Number(valor), 
-            tipo, 
-            // Se não enviar data, pega a data de hoje
-            data: data || new Date().toISOString().split('T')[0] 
-        });
+        Transacao.criar(
+            {
+                descricao,
+                valor: Number(valor),
+                tipo,
+                data: data || new Date().toISOString().split('T')[0]
+            },
+            (err, result) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ erro: err.message });
+                }
 
-        res.status(201).json({ mensagem: 'Transação criada com sucesso', transacao: novaTransacao });
+                res.status(201).json({
+                    mensagem: 'Salvo no banco!',
+                    id: result.insertId
+                });
+            }
+        );
     },
 
-    // Função para deletar
     deletar: (req, res) => {
         const { id } = req.params;
-        const deletada = Transacao.deletar(id);
-        
-        if (deletada) {
-            res.json({ mensagem: 'Transação deletada.', deletada });
-        } else {
-            res.status(404).json({ erro: 'Transação não encontrada.' });
-        }
+
+        Transacao.deletar(id, (erro) => {
+            if (erro) {
+                return res.status(500).json({ erro: 'Erro ao deletar' });
+            }
+
+            res.json({ mensagem: 'Deletado com sucesso' });
+        });
     }
 };
 
