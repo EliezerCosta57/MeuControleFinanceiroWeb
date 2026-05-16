@@ -8,13 +8,15 @@ app.use(express.json());
 // rotas
 const testeRoutes = require('./routes/testeroutes');
 const movimentacaoRoutes = require('./routes/movimentacaoRoutes');
+const usuariosRoutes = require('./routes/usuarios'); // <-- ajuste aqui: o nome do arquivo é usuarios.js
 
-// registro
+// registro das rotas
 app.use('/api', testeRoutes);
 app.use('/api', movimentacaoRoutes);
+app.use('/api', usuariosRoutes); // <-- já está certo, só garantir que o require acima aponta para o arquivo certo
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });
