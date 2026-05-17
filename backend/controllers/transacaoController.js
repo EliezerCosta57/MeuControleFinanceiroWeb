@@ -8,61 +8,57 @@ total (somando receitas e subtraindo despesas) antes de enviar para a tela de Da
 const Transacao = require('../models/transacao');
 
 const transacaoController = {
-
-    listar: (req, res) => {
-        Transacao.listarTodas((erro, resultados) => {
-            if (erro) {
-                return res.status(500).json({ erro: 'Erro ao buscar dados' });
-            }
+    listar: async (req, res) => {
+        try {
+            const resultados = await Transacao.listarTodas();
 
             const saldo = resultados.reduce((acumulador, transacao) => {
-                return transacao.tipo === 'receita' 
-                    ? acumulador + transacao.valor 
+                return transacao.tipo === 'receita'
+                    ? acumulador + transacao.valor
                     : acumulador - transacao.valor;
             }, 0);
 
             res.json({ saldo, transacoes: resultados });
-        });
+        } catch (erro) {
+            console.error('Erro ao buscar dados:', erro);
+            res.status(500).json({ erro: 'Erro ao buscar dados' });
+        }
     },
 
-    criar: (req, res) => {
-        const { descricao, valor, tipo, data } = req.body;
+    criar: async (req, res) => {
+        try {
+            const { descricao, valor, tipo, data } = req.body;
 
-        if (!descricao || valor == null || !tipo) {
-            return res.status(400).json({ erro: 'Dados obrigatórios' });
-        }
+            if (!descricao || valor == null || !tipo) {
+                return res.status(400).json({ erro: 'Dados obrigatórios' });
+            }
 
-        Transacao.criar(
-            {
+            const result = await Transacao.criar({
                 descricao,
                 valor: Number(valor),
                 tipo,
                 data: data || new Date().toISOString().split('T')[0]
-            },
-            (err, result) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).json({ erro: err.message });
-                }
+            });
 
-                res.status(201).json({
-                    mensagem: 'Salvo no banco!',
-                    id: result.insertId
-                });
-            }
-        );
+            res.status(201).json({
+                mensagem: 'Salvo no banco!',
+                id: result.insertId
+            });
+        } catch (err) {
+            console.error('Erro ao criar transação:', err);
+            res.status(500).json({ erro: err.message });
+        }
     },
 
-    deletar: (req, res) => {
-        const { id } = req.params;
-
-        Transacao.deletar(id, (erro) => {
-            if (erro) {
-                return res.status(500).json({ erro: 'Erro ao deletar' });
-            }
-
+    deletar: async (req, res) => {
+        try {
+            const { id } = req.params;
+            await Transacao.deletar(id);
             res.json({ mensagem: 'Deletado com sucesso' });
-        });
+        } catch (erro) {
+            console.error('Erro ao deletar transação:', erro);
+            res.status(500).json({ erro: 'Erro ao deletar' });
+        }
     }
 };
 
