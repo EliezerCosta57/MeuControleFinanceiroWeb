@@ -8,12 +8,12 @@ app.use(express.json());
 // rotas
 const testeRoutes = require('./routes/testeroutes');
 const movimentacaoRoutes = require('./routes/movimentacaoRoutes');
-const usuariosRoutes = require('./routes/usuarios'); // <-- ajuste aqui: o nome do arquivo é usuarios.js
+const usuariosRoutes = require('./routes/usuariosRoutes'); // nome correto do arquivo
 
 // registro das rotas
 app.use('/api', testeRoutes);
 app.use('/api', movimentacaoRoutes);
-app.use('/api', usuariosRoutes); // <-- já está certo, só garantir que o require acima aponta para o arquivo certo
+app.use('/api', usuariosRoutes);
 
 const PORT = process.env.PORT || 3000;
 
