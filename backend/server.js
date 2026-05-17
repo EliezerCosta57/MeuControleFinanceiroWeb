@@ -11,9 +11,9 @@ const movimentacaoRoutes = require('./routes/movimentacaoRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes'); // nome correto do arquivo
 
 // registro das rotas
-app.use('/api', testeRoutes);
-app.use('/api', movimentacaoRoutes);
-app.use('/api', usuariosRoutes);
+app.use('/api/teste', testeRoutes);
+app.use('/api/movimentacoes', movimentacaoRoutes);
+app.use('/api/usuarios', usuariosRoutes); // agora o prefixo está correto
 
 const PORT = process.env.PORT || 3000;
 

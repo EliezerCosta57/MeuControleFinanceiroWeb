@@ -1,27 +1,27 @@
 const conexao = require('../database/conexao');
 
 class Transacao {
-    static listarTodas(callback) {
-        conexao.query('SELECT * FROM movimentacoes', callback);
+    static async listarTodas() {
+        const [rows] = await conexao.query('SELECT * FROM movimentacoes');
+        return rows;
     }
 
-    static criar(transacao, callback) {
+    static async criar(transacao) {
         const { descricao, valor, tipo, data } = transacao;
-
         const sql = `
             INSERT INTO movimentacoes (descricao, valor, tipo, data)
             VALUES (?, ?, ?, ?)
         `;
-
-        conexao.query(sql, [descricao, valor, tipo, data], callback);
+        const [result] = await conexao.query(sql, [descricao, valor, tipo, data]);
+        return result;
     }
 
-    static deletar(id, callback) {
-        conexao.query(
+    static async deletar(id) {
+        const [result] = await conexao.query(
             'DELETE FROM movimentacoes WHERE id = ?',
-            [id],
-            callback
+            [id]
         );
+        return result;
     }
 }
 
