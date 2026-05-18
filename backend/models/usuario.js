@@ -12,6 +12,16 @@ class Usuario {
         const [rows] = await conexao.query('SELECT * FROM usuarios');
         return rows;
     }
+
+    static async buscarPorEmail(email) {
+  const [rows] = await conexao.query(
+    'SELECT * FROM usuarios WHERE email = ?',
+    [email]
+  );
+
+  return rows[0];
+}
+
 }
 
 module.exports = Usuario;

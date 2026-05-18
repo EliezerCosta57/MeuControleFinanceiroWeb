@@ -1,15 +1,22 @@
 const Usuario = require('../models/usuario');
+const bcrypt = require('bcrypt');
+
 
 const usuarioController = {
     criar: async (req, res) => {
         try {
             const { nome, email, senha } = req.body;
+            const senhaCriptografada = await bcrypt.hash(senha, 10);
 
             if (!nome || !email || !senha) {
                 return res.status(400).json({ erro: 'Dados obrigatórios' });
             }
 
-            const result = await Usuario.criar({ nome, email, senha });
+           const result = await Usuario.criar({
+      nome,
+      email,
+      senha: senhaCriptografada
+    });
 
             res.status(201).json({
                 mensagem: 'Usuário cadastrado com sucesso!',

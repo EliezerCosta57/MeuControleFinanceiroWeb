@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const transacaoController = require('../controllers/transacaoController');
+const autenticar = require('../middlewares/autenticar');
+
+
 
 // GET /api/transacoes → listar todas
-router.get('/', transacaoController.listar);
+router.get('/', autenticar, transacaoController.listar);
 
 // POST /api/transacoes → criar nova
-router.post('/', transacaoController.criar);
+router.post('/', autenticar, transacaoController.criar);
 
 // DELETE /api/transacoes/:id → deletar pelo id
-router.delete('/:id', transacaoController.deletar);
+router.delete('/:id', autenticar, transacaoController.deletar);
 
 module.exports = router;
